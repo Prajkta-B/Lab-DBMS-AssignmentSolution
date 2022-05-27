@@ -44,7 +44,7 @@ values
 (4,"MEGHA",9994562399,"KOLKATA","F"),
 (5,"PULKIT",7895999999,"LUCKNOW","M");
 
-INSERT into category
+insert into category
 values
 (1,"BOOKS"),
 (2,"GAMES"),
@@ -116,7 +116,7 @@ values
 
 SET FOREIGN_KEY_CHECKS=1;
 
-/*Q3*/
+/*q3*/
 select Count(C.CUS_ID) as Count, C.CUS_GENDER
 from customer C
 inner join orders O on C.CUS_ID = O.CUS_ID
@@ -138,16 +138,17 @@ group by sp.SUPP_ID
 having count(sp.SUPP_ID)>1;
 
 /*q6*/
-
+select MIN(supplier_pricing.SUPP_PRICE), category.CAT_ID, CAT_NAME, product.PRO_NAME from category
+inner join product on category.CAT_ID = product.CAT_ID
+inner join supplier_pricing on supplier_pricing.PRO_ID = product.PRO_ID group by category.CAT_ID;
 
 /*q7*/
-select PRO_ID,PRO_NAME from product 
-where PRO_ID =Any(select supplier_pricing.PRO_ID 
-				from orders o join supplier_pricing on supplier_pricing.PRICING_ID
-                where o.ORD_DATE > "2021-10-05");
+select ORD_DATE, product.PRO_ID, PRO_NAME from product
+inner join supplier_pricing on product.PRO_ID = supplier_pricing.PRO_ID
+inner join orders on orders.PRICING_ID = supplier_pricing.PRICING_ID
+where ORD_DATE > "2021-10-05";
 
 /*q8*/
-
 select CUS_NAME, CUS_GENDER from customer
 where CUS_NAME like "A%" or CUS_NAME like "%A";
 
